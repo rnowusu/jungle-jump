@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return mousedownDown;
 
       default:
-        return null;
+        return function () {};
     }
   };
 
@@ -158,9 +158,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       case 40:
         return mouseupDown;
-      //
-      // default:
-      // return null;
+
+      default:
+        return function () {};
     }
   };
 
