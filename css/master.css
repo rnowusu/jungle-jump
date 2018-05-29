@@ -21,3 +21,9 @@ body {
   background-image: url('../assets/jungle3.jpeg');
   /* background-size: cover; */
 }
+
+.title {
+  display: block;
+  margin: auto;
+  padding: 20px;
+}

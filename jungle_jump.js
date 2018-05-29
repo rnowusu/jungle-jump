@@ -1,13 +1,12 @@
 import MovingObject from './lib/moving_object'
 
-// let canvas = document.createElement("canvas")
 document.addEventListener('DOMContentLoaded', () =>{
   let canvas = document.getElementById('canvas');
   let ctx = canvas.getContext("2d");
-  // window.ctx = ctx;
+
   canvas.width = 700;
   canvas.height = 480
-  // window.canvas = canvas;
+
 
   let sprite = new Image();
   sprite.src = './assets/icy_tower_sprites2.png'

@@ -87,14 +87,12 @@ var _moving_object2 = _interopRequireDefault(_moving_object);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// let canvas = document.createElement("canvas")
 document.addEventListener('DOMContentLoaded', function () {
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
-  // window.ctx = ctx;
+
   canvas.width = 700;
   canvas.height = 480;
-  // window.canvas = canvas;
 
   var sprite = new Image();
   sprite.src = './assets/icy_tower_sprites2.png';
@@ -323,12 +321,24 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MovingObject = function MovingObject(position, velocity, sprite) {
+var MovingObject =
+// constructor(position, velocity, sprite){
+//   this.pos = position
+//   this.vel = velocity
+//   this.sprite = sprite
+//
+//
+// }
+function MovingObject(img, srcX, srcY, width, height, x, y) {
   _classCallCheck(this, MovingObject);
 
-  this.pos = position;
-  this.vel = velocity;
-  this.sprite = sprite;
+  this.img = img;
+  this.srcX = srcX;
+  this.srcY = srcY;
+  this.width = width;
+  this.height = height;
+  this.x = x;
+  this.y = y;
 };
 
 exports.default = MovingObject;
