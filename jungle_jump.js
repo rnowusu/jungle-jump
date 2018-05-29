@@ -1,10 +1,15 @@
 import MovingObject from './lib/moving_object'
-
-
+import { handleKeyDown, handleKeyUp, mousedownRight, mouseupRight, mousedownLeft, mouseupLeft, mousedownUp, mouseupUp, mousedownDown, mouseupDown  } from './lib/utils'
+import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils'
 document.addEventListener('DOMContentLoaded', () =>{
   let canvas = document.getElementById('canvas');
   let ctx = canvas.getContext("2d");
 
+  // window.moveLeft = moveLeft
+  // window.moveRight = moveRight
+  // window.moveUp = moveUp
+  // window.moveDown = moveDown
+  window.ctx = ctx
   canvas.width = 700;
   canvas.height = 480
 
@@ -58,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () =>{
     }
   }
 
+  document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
+  document.getElementById('button-right').addEventListener("mouseup", (e) => mouseupRight(e, player))
+  document.getElementById('button-left').addEventListener("mousedown", (e) => mousedownLeft(e, player))
+  document.getElementById('button-left').addEventListener("mouseup", (e) => mouseupLeft(e, player))
+  document.getElementById('button-up').addEventListener("mousedown", (e) => mousedownUp(e, player))
+  document.getElementById('button-up').addEventListener("mouseup", (e) => mouseupUp(e, player))
+  document.getElementById('button-down').addEventListener("mousedown", (e) => mousedownDown(e, player))
+  document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
+  document.addEventListener('keydown', (e) => {handleKeyDown(e, player)()})
+  document.addEventListener('keyup', (e) => {handleKeyUp(e.keyCode)()})
 
   let drawImage = () => {
     updateFrame();
@@ -259,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () =>{
   // document.body.childNodes[1].appendChild(sprite)
 });
 
-
+// export default player;
 // MovingObject.prototype.draw = (ctx) => {
 //   ctx.fillStyle = this.sprite
 // };
