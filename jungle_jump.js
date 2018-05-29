@@ -158,8 +158,6 @@ document.addEventListener('DOMContentLoaded', () =>{
   document.addEventListener('keydown', (e) => {handleKeyDown(e.keyCode)()})
   document.addEventListener('keyup', (e) => {handleKeyUp(e.keyCode)()})
 
-  // window.addEventListener('keydown', (e) => {console.log(e.keyCode); return mousedownDown();})
-  // window.addEventListener('keyup', (e) => {console.log(e.keyCode); return mouseupDown();})
   let a = 1;
   let updateFrame = () => {
     // if (currentFrame === 0){
@@ -178,15 +176,14 @@ document.addEventListener('DOMContentLoaded', () =>{
     }
     srcX = currentFrame * width + 6.2;
     srcY = 0 * height
-    // x+=10;
-    // y-=5;
-    if (x >= 700 ){
-      x = 0;
-    } else if (x < 0){ x = 699 }
-    if (y <= 0 ){
-      y = 480;
-    } else if (y > 480) {
-      y = 1;
+
+    if (x >= 670 ){
+      x = 670;
+    } else if (x < 0){ x = 0 }
+    if (y <= -40 ){
+      y = -40;
+    } else if (y > 370) {
+      y = 370;
     }
   }
 
@@ -196,18 +193,10 @@ document.addEventListener('DOMContentLoaded', () =>{
     requestAnimationFrame(drawImage)
   }
 
-  // setInterval(()=> {
-  //   drawImage();
-  // }, 80)
-
   requestAnimationFrame(drawImage);
   window.drawImage = drawImage
-  // drawImage();
-  // console.log(document.body.childNodes[1]);
   document.body.childNodes[1].appendChild(sprite)
 });
-
-
 
 
 // MovingObject.prototype.draw = (ctx) => {
