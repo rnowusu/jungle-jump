@@ -132,10 +132,12 @@ document.addEventListener('DOMContentLoaded', function () {
   //   ctx.fillStyle = 'blue';
   // ctx.fillRect(10, 10, 100, 100);
   // ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height)
-
+  var a = 0;
   var updateFrame = function updateFrame() {
 
     ctx.clearRect(player.x, player.y, player.width, player.height);
+    a += .15;
+    player.y += a;
 
     player.srcX = 1 * player.width + 6.2;
     player.srcY = 0 * player.height;
@@ -149,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
       player.y = -40;
     } else if (player.y > 370) {
       player.y = 370;
+      a = 0;
     }
   };
 
@@ -177,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return (0, _utils.mouseupDown)(e, player);
   });
   document.addEventListener('keydown', function (e) {
-    (0, _utils.handleKeyDown)(e, player)();
+    (0, _utils.handleKeyDown)(e, player = player)();
   });
   document.addEventListener('keyup', function (e) {
     (0, _utils.handleKeyUp)(e.keyCode)();

@@ -45,10 +45,12 @@ document.addEventListener('DOMContentLoaded', () =>{
 //   ctx.fillStyle = 'blue';
 // ctx.fillRect(10, 10, 100, 100);
   // ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height)
-
+  let a = 0;
   let updateFrame = () => {
 
     ctx.clearRect(player.x, player.y, player.width, player.height)
+    a += .15;
+    player.y += a;
 
     player.srcX = 1 * player.width + 6.2;
     player.srcY = 0 * player.height
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () =>{
       player.y = -40;
     } else if (player.y > 370) {
       player.y = 370;
+      a = 0;
     }
   }
 
@@ -71,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () =>{
   document.getElementById('button-up').addEventListener("mouseup", (e) => mouseupUp(e, player))
   document.getElementById('button-down').addEventListener("mousedown", (e) => mousedownDown(e, player))
   document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
-  document.addEventListener('keydown', (e) => {handleKeyDown(e, player)()})
+  document.addEventListener('keydown', (e) => {handleKeyDown(e, player = player)()})
   document.addEventListener('keyup', (e) => {handleKeyUp(e.keyCode)()})
 
   let drawImage = () => {
