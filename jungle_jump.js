@@ -1,6 +1,7 @@
-import MovingObject from './lib/moving_object'
-import { handleKeyDown, handleKeyUp, mousedownRight, mouseupRight, mousedownLeft, mouseupLeft, mousedownUp, mouseupUp, mousedownDown, mouseupDown  } from './lib/utils'
-import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils'
+import MovingObject from './lib/moving_object';
+import { handleKeyDown, handleKeyUp, mousedownRight, mouseupRight, mousedownLeft, mouseupLeft, mousedownUp, mouseupUp, mousedownDown, mouseupDown  } from './lib/utils';
+import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils';
+import { platform } from './lib/platform';
 
   document.addEventListener('DOMContentLoaded', () => {
     let canvas = document.getElementById('canvas');
@@ -37,8 +38,6 @@ import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils'
 
     let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
     window.player = player;
-  //   ctx.fillStyle = 'blue';
-  // ctx.fillRect(10, 10, 100, 100);
     let a = 0;
     let updateFrame = () => {
 
@@ -75,6 +74,8 @@ import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils'
       updateFrame();
       ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height)
       requestAnimationFrame(drawImage)
+      // ctx.fillStyle = '#d2a679';
+      // ctx.fillRect(10, 10, 200, 20);
     }
 
     requestAnimationFrame(drawImage);
