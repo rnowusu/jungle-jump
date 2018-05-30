@@ -93,10 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext("2d");
 
-  // window.moveLeft = moveLeft
-  // window.moveRight = moveRight
-  // window.moveUp = moveUp
-  // window.moveDown = moveDown
   window.ctx = ctx;
   canvas.width = 700;
   canvas.height = 480;
@@ -186,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function () {
   var drawImage = function drawImage() {
     updateFrame();
     ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height);
-    // ctx.drawImage(sprite, srcX, srcY, width, height, x, y, width, height)
     requestAnimationFrame(drawImage);
   };
 
