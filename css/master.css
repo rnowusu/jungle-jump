@@ -19,6 +19,9 @@ body {
   display: block;
   background-color: #F5F5F5;
   background-image: url('../assets/jungle3.jpeg');
+  /* background-position: bottom;
+  background-size:100% 100%;
+  background-repeat: no-repeat; */
 
 }
 

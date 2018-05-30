@@ -1,7 +1,7 @@
 import MovingObject from './lib/moving_object';
 import { handleKeyDown, handleKeyUp, mousedownRight, mouseupRight, mousedownLeft, mouseupLeft, mousedownUp, mouseupUp, mousedownDown, mouseupDown  } from './lib/utils';
 import { moveLeft, moveRight, moveUp, moveDown } from './lib/utils';
-import { platform } from './lib/platform';
+import Platform from './lib/platform';
 
   document.addEventListener('DOMContentLoaded', () => {
     let canvas = document.getElementById('canvas');
@@ -37,7 +37,9 @@ import { platform } from './lib/platform';
     // let srcY = 0 * height
 
     let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
-    window.player = player;
+    let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280 + 150, 100, 20, "#d2a679")
+
+    // window.player = player;
     let a = 0;
     let updateFrame = () => {
 
@@ -76,6 +78,8 @@ import { platform } from './lib/platform';
       requestAnimationFrame(drawImage)
       // ctx.fillStyle = '#d2a679';
       // ctx.fillRect(10, 10, 200, 20);
+      ctx.fillStyle = platform.color;
+      ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
     }
 
     requestAnimationFrame(drawImage);

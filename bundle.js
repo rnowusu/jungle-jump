@@ -89,6 +89,8 @@ var _utils = __webpack_require__(/*! ./lib/utils */ "./lib/utils.js");
 
 var _platform = __webpack_require__(/*! ./lib/platform */ "./lib/platform.js");
 
+var _platform2 = _interopRequireDefault(_platform);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -124,7 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // let srcY = 0 * height
 
   var player = new _moving_object2.default(sprite, srcX, srcY, width, height, x, y, width, height);
-  window.player = player;
+  var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 150, 100, 20, "#d2a679");
+
+  // window.player = player;
   var a = 0;
   var updateFrame = function updateFrame() {
 
@@ -185,6 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
     requestAnimationFrame(drawImage);
     // ctx.fillStyle = '#d2a679';
     // ctx.fillRect(10, 10, 200, 20);
+    ctx.fillStyle = platform.color;
+    ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
   };
 
   requestAnimationFrame(drawImage);
@@ -269,13 +275,14 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Platform = function Platform(x, y, width, height) {
+var Platform = function Platform(x, y, width, height, color) {
   _classCallCheck(this, Platform);
 
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
+  this.color = color;
 };
 
 exports.default = Platform;
