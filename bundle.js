@@ -126,12 +126,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // let srcY = 0 * height
 
   var player = new _moving_object2.default(sprite, srcX, srcY, width, height, x, y, width, height);
-  var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 150, 100, 20, "#d2a679");
-
+  var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679");
+  var platforms = [];
+  for (var i = 0; i < 3; i++) {
+    platforms.push(new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679"));
+  }
   // window.player = player;
   var a = 0;
   var updateFrame = function updateFrame() {
 
+    platform.crashWith(player);
+    platforms.forEach(function (new_platform) {
+      return new_platform.crashWith(player);
+    });
+    ctx.clearRect(platform.x, platform.y, platform.width, platform.height);
     ctx.clearRect(player.x, player.y, player.width, player.height);
     a += .15;
     player.y += a;
@@ -150,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
       player.y = 370;
       a = 0;
     }
+    // platform.y +=.1;
   };
 
   document.getElementById('button-right').addEventListener("mousedown", function (e) {
@@ -191,6 +200,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // ctx.fillRect(10, 10, 200, 20);
     ctx.fillStyle = platform.color;
     ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+    platforms.forEach(function (new_platform) {
+      ctx.fillRect(new_platform.x, new_platform.y, new_platform.width, new_platform.height);
+    });
   };
 
   requestAnimationFrame(drawImage);
@@ -273,19 +285,44 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Platform = function Platform(x, y, width, height, color) {
-  _classCallCheck(this, Platform);
+var Platform = function () {
+  function Platform(x, y, width, height, color) {
+    _classCallCheck(this, Platform);
 
-  this.x = x;
-  this.y = y;
-  this.width = width;
-  this.height = height;
-  this.color = color;
-};
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+  }
+
+  _createClass(Platform, [{
+    key: "crashWith",
+    value: function crashWith(other) {
+      var crash = true;
+      if (this.y + this.height < other.y || this.y > other.y + other.height || this.x + this.width < other.x || this.x > other.x + other.width) {
+        crash = false;
+        // alert("crashed")
+        // console.log("crashed");
+      } else {
+        console.log("crashed");other.y = this.y - other.height;
+      }
+    }
+  }]);
+
+  return Platform;
+}();
 
 exports.default = Platform;
+// var crash = true;
+// if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+//             crash = false;
+//         }
+//         return crash;
 
 /***/ }),
 

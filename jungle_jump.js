@@ -37,12 +37,18 @@ import Platform from './lib/platform';
     // let srcY = 0 * height
 
     let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
-    let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280 + 150, 100, 20, "#d2a679")
-
+    let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679")
+    let platforms = [];
+    for (let i = 0; i < 3; i++){
+      platforms.push(new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679"))
+    }
     // window.player = player;
     let a = 0;
     let updateFrame = () => {
 
+      platform.crashWith(player)
+      platforms.forEach((new_platform) => new_platform.crashWith(player))
+      ctx.clearRect(platform.x, platform.y, platform.width, platform.height)
       ctx.clearRect(player.x, player.y, player.width, player.height)
       a += .15;
       player.y += a;
@@ -59,6 +65,7 @@ import Platform from './lib/platform';
         player.y = 370;
         a = 0;
       }
+      // platform.y +=.1;
     }
 
     document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
@@ -80,6 +87,7 @@ import Platform from './lib/platform';
       // ctx.fillRect(10, 10, 200, 20);
       ctx.fillStyle = platform.color;
       ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+      platforms.forEach((new_platform) => {ctx.fillRect(new_platform.x, new_platform.y, new_platform.width, new_platform.height)})
     }
 
     requestAnimationFrame(drawImage);
