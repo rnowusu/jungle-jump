@@ -43,15 +43,17 @@ import Platform from './lib/platform';
       platforms.push(new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679"))
     }
     // window.player = player;
-    let a = 0;
+    // let a = 0;
     let updateFrame = () => {
 
       platform.crashWith(player)
       platforms.forEach((new_platform) => new_platform.crashWith(player))
       ctx.clearRect(platform.x, platform.y, platform.width, platform.height)
       ctx.clearRect(player.x, player.y, player.width, player.height)
-      a += .15;
-      player.y += a;
+      // platform.y +=1;
+
+      player.gravity+=.15;
+      player.y += player.gravity
 
       player.srcX = 1 * player.width + 6.2;
       player.srcY = 0 * player.height
@@ -63,7 +65,8 @@ import Platform from './lib/platform';
         player.y = -40;
       } else if (player.y > 370) {
         player.y = 370;
-        a = 0;
+        player.gravity = 0;
+        // a = 0;
       }
       // platform.y +=.1;
     }

@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     platforms.push(new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679"));
   }
   // window.player = player;
-  var a = 0;
+  // let a = 0;
   var updateFrame = function updateFrame() {
 
     platform.crashWith(player);
@@ -141,8 +141,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     ctx.clearRect(platform.x, platform.y, platform.width, platform.height);
     ctx.clearRect(player.x, player.y, player.width, player.height);
-    a += .15;
-    player.y += a;
+    // platform.y +=1;
+
+    player.gravity += .15;
+    player.y += player.gravity;
 
     player.srcX = 1 * player.width + 6.2;
     player.srcY = 0 * player.height;
@@ -156,7 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
       player.y = -40;
     } else if (player.y > 370) {
       player.y = 370;
-      a = 0;
+      player.gravity = 0;
+      // a = 0;
     }
     // platform.y +=.1;
   };
@@ -265,6 +268,7 @@ function MovingObject(img, srcX, srcY, width, height, x, y) {
   this.height = height;
   this.x = x;
   this.y = y;
+  this.gravity = 0;
 };
 
 exports.default = MovingObject;
@@ -309,8 +313,21 @@ var Platform = function () {
         // alert("crashed")
         // console.log("crashed");
       } else {
-        console.log("crashed");other.y = this.y - other.height;
+        if (this.y + this.height - 10 <= other.y) {
+          other.y = this.y + this.height;
+          other.gravity = 0;
+        } else if (this.y <= other.y + other.height) {
+          other.y = this.y - other.height + 8;
+          other.gravity = 0;
+        }
       }
+      //   if(other.y >= (this.y+ this.height)){
+      //     other.y = this.y - other.height-8;other.gravity = 0;
+      //   } else {
+      //     other.y = this.y + other.height;other.gravity = 0;
+      //     // console.log("hi");
+      //   }
+      // }
     }
   }]);
 
@@ -344,7 +361,7 @@ Object.defineProperty(exports, "__esModule", {
 var mouseDownID = exports.mouseDownID = -1;
 
 var handleKeyDown = exports.handleKeyDown = function handleKeyDown(e, player) {
-  debugger;
+  // debugger
   switch (e.keyCode) {
     case 37:
       return mousedownLeft(e, player);
@@ -390,7 +407,7 @@ var handleKeyUp = exports.handleKeyUp = function handleKeyUp(n) {
 };
 
 var mousedownRight = exports.mousedownRight = function mousedownRight(e, player) {
-  debugger;
+  // debugger
   if (mouseDownID == -1) {
     exports.mouseDownID = mouseDownID = setInterval(function () {
       return moveRight(player);
