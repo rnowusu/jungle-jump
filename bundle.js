@@ -159,9 +159,28 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (player.y > 370) {
       player.y = 370;
       player.gravity = 0;
+      player.yVelocity = 0;
       // a = 0;
     }
     // platform.y +=.1;
+    if (player[38] === true) {
+      (0, _utils.moveUp)(player);
+    } //else{player.velocity = 0;}
+    if (player[39] === true) {
+      (0, _utils.moveRight)(player);
+    } else {
+      if (player.velocity > 0) {
+        player.velocity = 0;
+      };
+    }
+    if (player[37] === true) {
+      (0, _utils.moveLeft)(player);
+    } else {
+      if (player.velocity < 0) player.velocity = 0;
+    }
+    if (player.moveDown === true) {
+      (0, _utils.moveDown)(player);
+    } //else{player.velocity = 0;}
   };
 
   document.getElementById('button-right').addEventListener("mousedown", function (e) {
@@ -188,11 +207,17 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('button-down').addEventListener("mouseup", function (e) {
     return (0, _utils.mouseupDown)(e, player);
   });
+  // document.addEventListener('keydown', (e) => {handleKeyDown(e, player)})
+  // document.addEventListener('keyup', (e) => {handleKeyUp(e, player)})
+  //   document.addEventListener("keydown", (e) => { if(e.keyCode === 39) {mousedownRight(e, player)}})
+  //   document.addEventListener("keyup", (e) => {if(e.keyCode === 39) {mouseupRight(e, player)}})
+  // document.addEventListener("keydown", (e) => {if (e.keyCode === 38) {mousedownUp(e, player)}})
+  //   document.addEventListener("keyup", (e) => {if (e.keyCode === 38) {mouseupUp(e, player)}})
   document.addEventListener('keydown', function (e) {
-    (0, _utils.handleKeyDown)(e, player);
+    player[e.keyCode] = true;
   });
   document.addEventListener('keyup', function (e) {
-    (0, _utils.handleKeyUp)(e.keyCode)();
+    console.log(player[e.keyCode]);player[e.keyCode] = false;
   });
 
   var drawImage = function drawImage() {
@@ -269,6 +294,12 @@ function MovingObject(img, srcX, srcY, width, height, x, y) {
   this.x = x;
   this.y = y;
   this.gravity = 0;
+  this.moveUp = false;
+  this.moveDown = false;
+  this.moveLeft = false;
+  this.moveRight = false;
+  this.velocity = 0;
+  this.yVelocity = 0;
 };
 
 exports.default = MovingObject;
@@ -315,10 +346,13 @@ var Platform = function () {
       } else {
         if (this.y + this.height - 10 <= other.y) {
           other.y = this.y + this.height;
-          other.gravity = 0;
+          // other.gravity = 0;
+          // other.yVelocity = 0;
         } else if (this.y <= other.y + other.height) {
           other.y = this.y - other.height + 8;
           other.gravity = 0;
+          // other.y+= .5;
+          other.yVelocity = -15;
         }
       }
       //   if(other.y >= (this.y+ this.height)){
@@ -387,19 +421,19 @@ var controls = exports.controls = {
   down: false
 };
 
-var handleKeyUp = exports.handleKeyUp = function handleKeyUp(n) {
-  switch (n) {
+var handleKeyUp = exports.handleKeyUp = function handleKeyUp(e, player) {
+  switch (e.keyCode) {
     case 37:
-      return mouseupLeft;
+      return mouseupLeft(e, player);
 
     case 38:
-      return mouseupUp;
+      return mouseupUp(e, player);
 
     case 39:
-      return mouseupRight;
+      return mouseupRight(e, player);
 
     case 40:
-      return mouseupDown;
+      return mouseupDown(e, player);
 
     default:
       return function () {};
@@ -414,10 +448,11 @@ var mousedownRight = exports.mousedownRight = function mousedownRight(e, player)
     }, 20);
   }
 };
-var mouseupRight = exports.mouseupRight = function mouseupRight(e) {
+var mouseupRight = exports.mouseupRight = function mouseupRight(e, player) {
   if (mouseDownID != -1) {
     clearInterval(mouseDownID);
     exports.mouseDownID = mouseDownID = -1;
+    player.velocity = 0;
   }
 };
 
@@ -428,10 +463,11 @@ var mousedownLeft = exports.mousedownLeft = function mousedownLeft(e, player) {
     }, 20);
   }
 };
-var mouseupLeft = exports.mouseupLeft = function mouseupLeft(e) {
+var mouseupLeft = exports.mouseupLeft = function mouseupLeft(e, player) {
   if (mouseDownID != -1) {
     clearInterval(mouseDownID);
     exports.mouseDownID = mouseDownID = -1;
+    player.velocity = 0;
   }
 };
 
@@ -465,19 +501,32 @@ var mouseupDown = exports.mouseupDown = function mouseupDown(e) {
 
 var moveLeft = exports.moveLeft = function moveLeft(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.x -= 10;
+  player.x += player.velocity;
+  player.velocity -= .25;
+  if (player.velocity < -15) {
+    player.velocity = -15;
+  }
   // srcY -=50;
 };
 
 var moveRight = exports.moveRight = function moveRight(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.x += 10;
+  player.x += player.velocity;
+  player.velocity += .25;
+  if (player.velocity > 15) {
+    player.velocity = 15;
+  }
   // srcX +=50;
 };
 
 var moveUp = exports.moveUp = function moveUp(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.y -= 10;
+  player.y -= .5;
+  player.y += player.yVelocity;
+  player.yVelocity -= .25;
+  if (player.yVelocity < -15) {
+    player.yVelocity = -15;
+  }
 };
 
 var moveDown = exports.moveDown = function moveDown(player) {

@@ -66,9 +66,22 @@ import Platform from './lib/platform';
       } else if (player.y > 370) {
         player.y = 370;
         player.gravity = 0;
+        player.yVelocity = 0;
         // a = 0;
       }
       // platform.y +=.1;
+      if (player[38] === true){
+        moveUp(player);
+      } //else{player.velocity = 0;}
+      if (player[39] === true){
+        moveRight(player);
+      } else{if (player.velocity > 0){player.velocity = 0};}
+      if (player[37] === true){
+        moveLeft(player)
+      } else{if(player.velocity < 0) player.velocity = 0;}
+      if (player.moveDown === true){
+        moveDown(player)
+      } //else{player.velocity = 0;}
     }
 
     document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
@@ -79,8 +92,14 @@ import Platform from './lib/platform';
     document.getElementById('button-up').addEventListener("mouseup", (e) => mouseupUp(e, player))
     document.getElementById('button-down').addEventListener("mousedown", (e) => mousedownDown(e, player))
     document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
-    document.addEventListener('keydown', (e) => {handleKeyDown(e, player)})
-    document.addEventListener('keyup', (e) => {handleKeyUp(e.keyCode)()})
+    // document.addEventListener('keydown', (e) => {handleKeyDown(e, player)})
+    // document.addEventListener('keyup', (e) => {handleKeyUp(e, player)})
+  //   document.addEventListener("keydown", (e) => { if(e.keyCode === 39) {mousedownRight(e, player)}})
+  //   document.addEventListener("keyup", (e) => {if(e.keyCode === 39) {mouseupRight(e, player)}})
+  // document.addEventListener("keydown", (e) => {if (e.keyCode === 38) {mousedownUp(e, player)}})
+  //   document.addEventListener("keyup", (e) => {if (e.keyCode === 38) {mouseupUp(e, player)}})
+  document.addEventListener('keydown', e => {player[e.keyCode] = true;})
+  document.addEventListener('keyup', e => {console.log(player[e.keyCode]);player[e.keyCode] = false;})
 
     let drawImage = () => {
       updateFrame();
