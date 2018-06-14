@@ -120,25 +120,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var width = sheetWidth / cols;
   var height = sheetHeight / rows;
 
-  // let currentFrame = 0;
-  // currentFrame = ++currentFrame % (cols/2 -2);
-  // let srcX = currentFrame * width + 6.2;
-  // let srcY = 0 * height
-
   var player = new _moving_object2.default(sprite, srcX, srcY, width, height, x, y, width, height);
   var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679");
   var platforms = [];
   for (var i = 0; i < 7; i++) {
-    platforms.push(new _platform2.default(Math.random() * canvas.width - 70, i * 50 + 50, 100, 20, "#d2a679"));
+    platforms.push(new _platform2.default(Math.random() * canvas.width - 70, i * 130 + 50, 100, 20, "#d2a679"));
   }
-  // window.player = player;
-  // let a = 0;
+
   var updateFrame = function updateFrame() {
 
     platform.crashWith(player);
     platforms.forEach(function (new_platform) {
       new_platform.crashWith(player);
-      // new_platform.y +=1;
+      new_platform.y += 1;
       ctx.clearRect(new_platform.x - 1, new_platform.y - 1, new_platform.width + 2, new_platform.height - 2);
       if (new_platform.y >= 480) {
         new_platform.y = 0;new_platform.x = Math.random() * 700;
@@ -146,8 +140,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     ctx.clearRect(platform.x - 1, platform.y - 1, platform.width + 2, platform.height - 2);
     ctx.clearRect(player.x, player.y, player.width, player.height);
-    // platform.y +=1;
-    // ctx.clearRect(platform.x-1, platform.y-1, platform.width+2, platform.height-2)
+    platform.y += 3;
+    if (platform.y >= 480) {
+      platform.y = 0;platform.x = Math.random() * 700;
+    }
+    ctx.clearRect(platform.x - 1, platform.y - 1, platform.width + 2, platform.height - 2);
 
     player.gravity += .15;
     player.y += player.gravity;
@@ -197,42 +194,24 @@ document.addEventListener('DOMContentLoaded', function () {
       // player.currentFrame = ++player.currentFrame % (16);
       a = 1;
     }
+    if (player[37] === false && player[38] === false && player[39] === false) {
+      player.currentFrame = 1;
+    }
     player.srcX = player.currentFrame * player.width + 5.2;
     player.srcY = 0 * player.height;
   };
   var a = 1;
   player.currentFrame = 1;
 
-  document.getElementById('button-right').addEventListener("mousedown", function (e) {
-    return (0, _utils.mousedownRight)(e, player);
-  });
-  document.getElementById('button-right').addEventListener("mouseup", function (e) {
-    return (0, _utils.mouseupRight)(e, player);
-  });
-  document.getElementById('button-left').addEventListener("mousedown", function (e) {
-    return (0, _utils.mousedownLeft)(e, player);
-  });
-  document.getElementById('button-left').addEventListener("mouseup", function (e) {
-    return (0, _utils.mouseupLeft)(e, player);
-  });
-  document.getElementById('button-up').addEventListener("mousedown", function (e) {
-    return (0, _utils.mousedownUp)(e, player);
-  });
-  document.getElementById('button-up').addEventListener("mouseup", function (e) {
-    return (0, _utils.mouseupUp)(e, player);
-  });
-  document.getElementById('button-down').addEventListener("mousedown", function (e) {
-    return (0, _utils.mousedownDown)(e, player);
-  });
-  document.getElementById('button-down').addEventListener("mouseup", function (e) {
-    return (0, _utils.mouseupDown)(e, player);
-  });
-  // document.addEventListener('keydown', (e) => {handleKeyDown(e, player)})
-  // document.addEventListener('keyup', (e) => {handleKeyUp(e, player)})
-  //   document.addEventListener("keydown", (e) => { if(e.keyCode === 39) {mousedownRight(e, player)}})
-  //   document.addEventListener("keyup", (e) => {if(e.keyCode === 39) {mouseupRight(e, player)}})
-  // document.addEventListener("keydown", (e) => {if (e.keyCode === 38) {mousedownUp(e, player)}})
-  //   document.addEventListener("keyup", (e) => {if (e.keyCode === 38) {mouseupUp(e, player)}})
+  // document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
+  // document.getElementById('button-right').addEventListener("mouseup", (e) => mouseupRight(e, player))
+  // document.getElementById('button-left').addEventListener("mousedown", (e) => mousedownLeft(e, player))
+  // document.getElementById('button-left').addEventListener("mouseup", (e) => mouseupLeft(e, player))
+  // document.getElementById('button-up').addEventListener("mousedown", (e) => mousedownUp(e, player))
+  // document.getElementById('button-up').addEventListener("mouseup", (e) => mouseupUp(e, player))
+  // document.getElementById('button-down').addEventListener("mousedown", (e) => mousedownDown(e, player))
+  // document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
+
   document.addEventListener('keydown', function (e) {
     player[e.keyCode] = true;
   });
@@ -244,8 +223,6 @@ document.addEventListener('DOMContentLoaded', function () {
     updateFrame();
     ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height);
     requestAnimationFrame(drawImage);
-    // ctx.fillStyle = '#d2a679';
-    // ctx.fillRect(10, 10, 200, 20);
     ctx.fillStyle = platform.color;
     ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
     platforms.forEach(function (new_platform) {
@@ -255,26 +232,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   requestAnimationFrame(drawImage);
   window.drawImage = drawImage;
-
-  // let a = 1;
-  // let updateFrame = () => {
-  //   // if (currentFrame === 0){
-  //   //   ctx.translate(width, 0);
-  //   //   ctx.scale(-1,1)
-  //   //   ctx.drawImage(sprite, srcX, srcY, width, height, x, y, width, height)
-  //   // }
-  //
-  //   ctx.clearRect(x, y, width, height)
-  //   // currentFrame === 0 ? currentFrame = 3 : currentFrame;
-  //   // currentFrame === 4 ? currentFrame = 5 : currentFrame;
-  //   ++a;
-  //   if (a%5 === 0){
-  //     currentFrame = ++currentFrame % (cols/2 -2);
-  //     a = 1;
-  //   }
-  //   srcX = currentFrame * width + 6.2;
-  //   srcY = 0 * height
-  // }
 });
 
 /***/ }),
@@ -551,12 +508,10 @@ var moveRight = exports.moveRight = function moveRight(player) {
 var moveUp = exports.moveUp = function moveUp(player) {
   // player.currentFrame = 7;
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.y -= 7.5;
+  player.y -= 7;
   // player.y += player.yVelocity;
   // player.yVelocity -=.25;
-  if (player.yVelocity < -15) {
-    player.yVelocity = -15;
-  }
+  // if (player.yVelocity < -15){player.yVelocity = -15;}
 };
 
 var moveDown = exports.moveDown = function moveDown(player) {
