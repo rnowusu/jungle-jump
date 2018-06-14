@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // platform.y +=.1;
     if (player[38] === true) {
-      (0, _utils.moveUp)(player);
+      (0, _utils.moveUp)(player);player.currentFrame = 7;
     } //else{player.velocity = 0;}
     if (player[39] === true) {
       (0, _utils.moveRight)(player);
@@ -181,7 +181,21 @@ document.addEventListener('DOMContentLoaded', function () {
     if (player.moveDown === true) {
       (0, _utils.moveDown)(player);
     } //else{player.velocity = 0;}
+    ctx.clearRect(player.x, player.y, player.width, player.height);
+    ++a;
+    if (a % 5 === 0 && player[38] === false) {
+      player.currentFrame = ++player.currentFrame % (16 / 2 - 2);
+      if (player.currentFrame <= 2) {
+        player.currentFrame = 3;
+      }
+      // player.currentFrame = ++player.currentFrame % (16);
+      a = 1;
+    }
+    player.srcX = player.currentFrame * player.width + 5.2;
+    player.srcY = 0 * player.height;
   };
+  var a = 1;
+  player.currentFrame = 1;
 
   document.getElementById('button-right').addEventListener("mousedown", function (e) {
     return (0, _utils.mousedownRight)(e, player);
@@ -355,7 +369,7 @@ var Platform = function () {
           // other.y+= .5;
           other.yVelocity = -15;
         }
-        if (this.x >= other.x + other.width) {
+        if (this.x <= other.x + other.width) {
           // other.x = this.x
         } else if (this.x + this.width >= other.x) {
           // other.x = this.x + this.width + 3;
@@ -526,6 +540,7 @@ var moveRight = exports.moveRight = function moveRight(player) {
 };
 
 var moveUp = exports.moveUp = function moveUp(player) {
+  // player.currentFrame = 7;
   ctx.clearRect(player.x, player.y, player.width, player.height);
   player.y -= .5;
   player.y += player.yVelocity;

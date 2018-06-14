@@ -71,7 +71,7 @@ import Platform from './lib/platform';
       }
       // platform.y +=.1;
       if (player[38] === true){
-        moveUp(player);
+        moveUp(player); player.currentFrame = 7;
       } //else{player.velocity = 0;}
       if (player[39] === true){
         moveRight(player);
@@ -82,7 +82,19 @@ import Platform from './lib/platform';
       if (player.moveDown === true){
         moveDown(player)
       } //else{player.velocity = 0;}
+      ctx.clearRect(player.x, player.y, player.width, player.height)
+      ++a;
+      if (a%5 === 0 && player[38] === false){
+          player.currentFrame = ++player.currentFrame % (16/2 -2);
+          if(player.currentFrame <= 2){player.currentFrame = 3;}
+          // player.currentFrame = ++player.currentFrame % (16);
+          a = 1;
+      }
+        player.srcX = player.currentFrame * player.width + 5.2;
+        player.srcY = 0 * player.height
     }
+    let a = 1;
+    player.currentFrame = 1;
 
     document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
     document.getElementById('button-right').addEventListener("mouseup", (e) => mouseupRight(e, player))
