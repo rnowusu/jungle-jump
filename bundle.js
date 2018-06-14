@@ -374,6 +374,9 @@ var Platform = function () {
           other.gravity = 0;
           // other.y+= .5;
           other.yVelocity = -15;
+          if (other[38] === true) {
+            other.y -= 4;
+          }
         }
         if (this.x <= other.x + other.width) {
           // other.x = this.x
@@ -548,9 +551,9 @@ var moveRight = exports.moveRight = function moveRight(player) {
 var moveUp = exports.moveUp = function moveUp(player) {
   // player.currentFrame = 7;
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.y -= .5;
-  player.y += player.yVelocity;
-  player.yVelocity -= .25;
+  player.y -= 7.5;
+  // player.y += player.yVelocity;
+  // player.yVelocity -=.25;
   if (player.yVelocity < -15) {
     player.yVelocity = -15;
   }
