@@ -137,11 +137,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     platform.crashWith(player);
     platforms.forEach(function (new_platform) {
-      return new_platform.crashWith(player);
+      new_platform.crashWith(player);
+      // new_platform.y +=1;
+      ctx.clearRect(new_platform.x - 1, new_platform.y - 1, new_platform.width + 2, new_platform.height - 2);
+      if (new_platform.y >= 480) {
+        new_platform.y = 0;new_platform.x = Math.random() * 700;
+      }
     });
-    ctx.clearRect(platform.x, platform.y, platform.width, platform.height);
+    ctx.clearRect(platform.x - 1, platform.y - 1, platform.width + 2, platform.height - 2);
     ctx.clearRect(player.x, player.y, player.width, player.height);
     // platform.y +=1;
+    // ctx.clearRect(platform.x-1, platform.y-1, platform.width+2, platform.height-2)
 
     player.gravity += .15;
     player.y += player.gravity;
