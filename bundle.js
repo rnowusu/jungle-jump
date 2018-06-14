@@ -128,8 +128,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var player = new _moving_object2.default(sprite, srcX, srcY, width, height, x, y, width, height);
   var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679");
   var platforms = [];
-  for (var i = 0; i < 3; i++) {
-    platforms.push(new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679"));
+  for (var i = 0; i < 7; i++) {
+    platforms.push(new _platform2.default(Math.random() * canvas.width - 70, i * 50 + 50, 100, 20, "#d2a679"));
   }
   // window.player = player;
   // let a = 0;
@@ -344,6 +344,7 @@ var Platform = function () {
         // alert("crashed")
         // console.log("crashed");
       } else {
+        ctx.clearRect(other.x, other.y, other.width, other.height);
         if (this.y + this.height - 10 <= other.y) {
           other.y = this.y + this.height;
           // other.gravity = 0;
@@ -353,6 +354,11 @@ var Platform = function () {
           other.gravity = 0;
           // other.y+= .5;
           other.yVelocity = -15;
+        }
+        if (this.x >= other.x + other.width) {
+          // other.x = this.x
+        } else if (this.x + this.width >= other.x) {
+          // other.x = this.x + this.width + 3;
         }
       }
       //   if(other.y >= (this.y+ this.height)){

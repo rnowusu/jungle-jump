@@ -39,8 +39,8 @@ import Platform from './lib/platform';
     let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
     let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679")
     let platforms = [];
-    for (let i = 0; i < 3; i++){
-      platforms.push(new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679"))
+    for (let i = 0; i < 7; i++){
+      platforms.push(new Platform(Math.random() * canvas.width - 70, i*50 + 50, 100, 20, "#d2a679"))
     }
     // window.player = player;
     // let a = 0;
