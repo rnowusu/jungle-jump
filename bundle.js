@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       if (player.velocity < 0) player.velocity = 0;
     }
-    if (player.moveDown === true) {
+    if (player[40] === true) {
       (0, _utils.moveDown)(player);
     } //else{player.velocity = 0;}
     ctx.clearRect(player.x, player.y, player.width, player.height);
@@ -277,6 +277,9 @@ function MovingObject(img, srcX, srcY, width, height, x, y) {
   this.moveRight = false;
   this.velocity = 0;
   this.yVelocity = 0;
+  this[37] = false;
+  this[38] = false;
+  this[39] = false;
 };
 
 exports.default = MovingObject;

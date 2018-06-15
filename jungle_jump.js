@@ -78,9 +78,9 @@ import Platform from './lib/platform';
         moveRight(player);
       } else{if (player.velocity > 0){player.velocity = 0};}
       if (player[37] === true){
-        moveLeft(player)
+        moveLeft(player);
       } else{if(player.velocity < 0) player.velocity = 0;}
-      if (player.moveDown === true){
+      if (player[40] === true){
         moveDown(player)
       } //else{player.velocity = 0;}
       ctx.clearRect(player.x, player.y, player.width, player.height)
