@@ -53,7 +53,7 @@ import Platform from './lib/platform';
       if(platform.y >= 480){platform.y = 0; platform.x = Math.random() *700;}
       ctx.clearRect(platform.x-1, platform.y-1, platform.width+2, platform.height-2)
 
-      player.gravity+=.15;
+      player.gravity+=.25;
       player.y += player.gravity
 
       player.srcX = 1 * player.width + 6.2;
@@ -122,6 +122,7 @@ import Platform from './lib/platform';
     }
 
     requestAnimationFrame(drawImage);
-    window.drawImage = drawImage
+    // window.drawImage = drawImage
+
 
 });

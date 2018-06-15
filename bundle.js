@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     ctx.clearRect(platform.x - 1, platform.y - 1, platform.width + 2, platform.height - 2);
 
-    player.gravity += .15;
+    player.gravity += .25;
     player.y += player.gravity;
 
     player.srcX = 1 * player.width + 6.2;
@@ -231,7 +231,8 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   requestAnimationFrame(drawImage);
-  window.drawImage = drawImage;
+  // window.drawImage = drawImage
+
 });
 
 /***/ }),
@@ -492,8 +493,8 @@ var moveLeft = exports.moveLeft = function moveLeft(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
   player.x += player.velocity;
   player.velocity -= .25;
-  if (player.velocity < -15) {
-    player.velocity = -15;
+  if (player.velocity < -8) {
+    player.velocity = -8;
   }
   // srcY -=50;
 };
@@ -502,8 +503,8 @@ var moveRight = exports.moveRight = function moveRight(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
   player.x += player.velocity;
   player.velocity += .25;
-  if (player.velocity > 15) {
-    player.velocity = 15;
+  if (player.velocity > 8) {
+    player.velocity = 8;
   }
   // srcX +=50;
 };
@@ -519,7 +520,7 @@ var moveUp = exports.moveUp = function moveUp(player) {
 
 var moveDown = exports.moveDown = function moveDown(player) {
   ctx.clearRect(player.x, player.y, player.width, player.height);
-  player.y += 10;
+  player.y += 4;
 };
 
 /***/ })
