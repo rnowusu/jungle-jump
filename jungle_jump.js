@@ -38,6 +38,10 @@ import Platform from './lib/platform';
       platforms.push(new Platform(Math.random() * canvas.width - 70, i*130 + 50, 100, 20, "#d2a679"))
     }
 
+    let ground = new Image();
+    ground.src = './assets/grass3.png'
+    // let grass = new MovingObject(ground, 0,0, 4300, 30, 0,0, 700, 700)
+
     let updateFrame = () => {
 
       platform.crashWith(player)
@@ -114,7 +118,10 @@ import Platform from './lib/platform';
 
     let drawImage = () => {
       updateFrame();
+      // ctx.drawImage(ground, 0,0, 4300, 1540, 0,85, 800, 400)
+      ctx.drawImage(ground, 0,0, 1060, 380, 0,85, 900, 400)
       ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height)
+      // ctx.drawImage(grass.img, grass.srcX, grass.srcY, grass.width, grass.height, grass.x, grass.y, grass.width, grass.height)
       requestAnimationFrame(drawImage);
       ctx.fillStyle = platform.color;
       ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
