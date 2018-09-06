@@ -8,12 +8,13 @@ import Platform from './lib/platform';
     let ctx = canvas.getContext("2d");
 
     window.ctx = ctx
-    canvas.width = 700;
+    canvas.width = 720;
     canvas.height = 480
 
     let sprite = new Image();
     sprite.src = './assets/icy_tower_sprites2.png'
-    sprite.className = "sprite"
+    sprite.className = "sprite";
+    // sprite.style="-moz-transform: scale(-1, 1);-webkit-transform: scale(-1, 1);-o-transform: scale(-1, 1);transform: scale(-1, 1);filter: FlipH;";
 
     let x = 350;
     let y = 380;
@@ -40,7 +41,11 @@ import Platform from './lib/platform';
 
     let ground = new Image();
     ground.src = './assets/grass3.png'
-    // let grass = new MovingObject(ground, 0,0, 4300, 30, 0,0, 700, 700)
+    let grass = new MovingObject(ground, 0,0, 1060, 380, 0,110, 900, 400)
+
+    let pterodactyl_sprite = new Image();
+    pterodactyl_sprite.src = './assets/pterodactyl_transparent.png';
+    let predator = new MovingObject(pterodactyl_sprite, 80.5*1, 0, 79, 77, 0, 0, 79, 77)
 
     let updateFrame = () => {
 
@@ -56,6 +61,7 @@ import Platform from './lib/platform';
       platform.y +=3;
       if(platform.y >= 480){platform.y = 0; platform.x = Math.random() *700;}
       ctx.clearRect(platform.x-1, platform.y-1, platform.width+2, platform.height-2)
+      ctx.clearRect(predator.x-1, predator.y-1, predator.width*1.5+2, predator.height*1.5+2)
 
       player.gravity+=.25;
       player.y += player.gravity
@@ -88,21 +94,42 @@ import Platform from './lib/platform';
         moveDown(player)
       } //else{player.velocity = 0;}
       ctx.clearRect(player.x, player.y, player.width, player.height)
+      ctx.clearRect(predator.x, predator.y, predator.width, predator.height)
       ++a;
+      ++b;
       if (a%5 === 0 && player[38] === false){
           player.currentFrame = ++player.currentFrame % (16/2 -2);
           if(player.currentFrame <= 2){player.currentFrame = 3;}
           // player.currentFrame = ++player.currentFrame % (16);
           a = 1;
       }
+      if (predator.currentFrame > 5) {
+        predator.currentFrame = 0;
+      }
+      if (b%5 === 0) {
+        ++predator.currentFrame
+      }
       if ( (player[37] === false) && (player[38] === false) && (player[39] === false) ){
         player.currentFrame = 1;
       }
         player.srcX = player.currentFrame * player.width + 5.2;
         player.srcY = 0 * player.height
+
+      if (player.x - predator.width - player.width < predator.x) {
+        predator.x -=1.5;
+      } else if (player.x - predator.width - player.width > predator.x) {
+        predator.x +=1.5
+      }
+      if (player.y - player.height < predator.y) {
+        predator.y -=1.5;
+      } else if (player.y - player.height > predator.y) {
+        predator.y +=1.5
+      }
     }
     let a = 1;
-    player.currentFrame = 1;
+    let b = 1;
+    player.currentFrame = 0;
+    predator.currentFrame = 0;
 
     // document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
     // document.getElementById('button-right').addEventListener("mouseup", (e) => mouseupRight(e, player))
@@ -119,13 +146,14 @@ import Platform from './lib/platform';
     let drawImage = () => {
       updateFrame();
       // ctx.drawImage(ground, 0,0, 4300, 1540, 0,85, 800, 400)
-      ctx.drawImage(ground, 0,0, 1060, 380, 0,85, 900, 400)
+      // ctx.drawImage(ground, 0,0, 1060, 380, 0,85, 900, 400)
+      ctx.drawImage(grass.img, grass.srcX, grass.srcY, grass.width, grass.height, grass.x, grass.y, grass.width, grass.height)
       ctx.drawImage(player.img, player.srcX, player.srcY, player.width, player.height, player.x, player.y, player.width, player.height)
-      // ctx.drawImage(grass.img, grass.srcX, grass.srcY, grass.width, grass.height, grass.x, grass.y, grass.width, grass.height)
       requestAnimationFrame(drawImage);
       ctx.fillStyle = platform.color;
       ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
       platforms.forEach((new_platform) => {ctx.fillRect(new_platform.x, new_platform.y, new_platform.width, new_platform.height)})
+      ctx.drawImage(predator.img, predator.srcX*predator.currentFrame, predator.srcY, predator.width, predator.height, predator.x, predator.y, predator.width*1.5, predator.height*1.5)
     }
 
     requestAnimationFrame(drawImage);
