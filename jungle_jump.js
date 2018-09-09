@@ -11,12 +11,12 @@ import Platform from './lib/platform';
     canvas.width = 720;
     canvas.height = 480
 
-    let sprite = new Image();
-    sprite.src = './assets/icy_tower_sprites2.png'
-    sprite.className = "sprite";
+    // let sprite = new Image();
+    // sprite.src = './assets/icy_tower_sprites2.png'
+    // sprite.className = "sprite";
 
-    // let sprite2 = new Image();
-    // sprite2.src = './assets/player_sprite.png'
+    let sprite2 = new Image();
+    sprite2.src = './assets/player_sprite.png'
     // sprite.style="-moz-transform: scale(-1, 1);-webkit-transform: scale(-1, 1);-o-transform: scale(-1, 1);transform: scale(-1, 1);filter: FlipH;";
 
     let x = 350;
@@ -35,7 +35,7 @@ import Platform from './lib/platform';
     let width = sheetWidth/ cols;
     let height = sheetHeight / rows;
 
-    let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
+    let player = new MovingObject(sprite2, srcX, srcY, width, height, x, y, width, height)
     player.health = 500;
     // console.log(player.health);
     let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679")
@@ -73,7 +73,7 @@ import Platform from './lib/platform';
       player.y += player.gravity
 
       player.srcX = 1 * player.width + 6.2;
-      if(!player[37]){player.srcY = 0 * player.height}
+      if(!player[37]){player.srcY = 0 * player.height + 4.2}
       // else{player.srcY=1*player.height}
 
       if (player.x >= 670 ){
@@ -95,7 +95,7 @@ import Platform from './lib/platform';
         moveRight(player);
       } else{if (player.velocity > 0){player.velocity = 0};}
       if (player[37] === true){
-        moveLeft(player);
+        moveLeft(player); player.srcY = player.height;if(player.currentFrame < 10){player.currentFrame = 13.8;}
       } else{if(player.velocity < 0) player.velocity = 0;}
       if (player[40] === true){
         moveDown(player)
@@ -104,11 +104,14 @@ import Platform from './lib/platform';
       ctx.clearRect(predator.x, predator.y, predator.width, predator.height)
       ++a;
       ++b;
-      if (a%5 === 0 && player[38] === false){
+      if (a%5 === 0 && player[38] === false && player[37] === false){
           player.currentFrame = ++player.currentFrame % (16/2 -2);
           if(player.currentFrame <= 2){player.currentFrame = 3;}
           // player.currentFrame = ++player.currentFrame % (16);
           a = 1;
+      }
+      if (player[37]) {
+        if(a%5 ===0){player.currentFrame -=1.1}
       }
       if (predator.currentFrame > 5) {
         predator.currentFrame = 0;
@@ -119,9 +122,10 @@ import Platform from './lib/platform';
       if ( (player[37] === false) && (player[38] === false) && (player[39] === false) ){
         player.currentFrame = 1;
       }
-        player.srcX = player.currentFrame * player.width + 5.2;
+        player.srcX = player.currentFrame * player.width + 5.2+6.2;
         // player.srcY = 0 * player.height
 
+      // if (player[37]){player.currentFrame = 15}
       if (player.x - predator.width - player.width < predator.x-50) {
         predator.x -=1.5;
       } else if (player.x - predator.width - player.width > predator.x-50) {
