@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var ground = new Image();
   ground.src = './assets/grass3.png';
-  var grass = new _moving_object2.default(ground, 0, 0, 1060, 380, 0, 110, 900, 400);
+  var grass = new _moving_object2.default(ground, 0, 0, 1060, 380, -30, 110, 950, 400);
 
   var pterodactyl_sprite = new Image();
   pterodactyl_sprite.src = './assets/predator_sprite.png';
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
     platforms.forEach(function (new_platform) {
       new_platform.crashWith(player);
       new_platform.y += 1;
-      ctx.clearRect(new_platform.x - 1, new_platform.y - 1, new_platform.width + 2, new_platform.height - 2);
+      ctx.clearRect(new_platform.x - 1, new_platform.y - 2, new_platform.width + 2, new_platform.height - 2);
       if (new_platform.y >= 480) {
         new_platform.y = 0;new_platform.x = Math.random() * 700;
       }
@@ -239,8 +239,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // if (player[37]){player.currentFrame = 15}
     if (player.x - predator.width - player.width < predator.x - 50) {
       predator.x -= 1.5;
-      predator.srcY = predator.height;
-      predator.srcX = 84;
+      if (player.x - predator.width - player.width < predator.x - 55) {
+        predator.srcY = predator.height;
+        predator.srcX = 84;
+      }
     } else if (player.x - predator.width - player.width > predator.x - 50) {
       predator.x += 1.5;
       predator.srcY = 0;
@@ -256,6 +258,19 @@ document.addEventListener('DOMContentLoaded', function () {
   var b = 1;
   player.currentFrame = 0;
   predator.currentFrame = 0;
+
+  function preShake() {
+    ctx.save();
+    var dx = Math.random() * 10;
+    var dy = Math.random() * 10;
+    ctx.translate(dx, dy);
+  }
+
+  function postShake() {
+    ctx.restore();
+  }
+
+  var shaking = false;
 
   // document.getElementById('button-right').addEventListener("mousedown", (e) => mousedownRight(e, player))
   // document.getElementById('button-right').addEventListener("mouseup", (e) => mouseupRight(e, player))
@@ -274,6 +289,13 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   var drawImage = function drawImage() {
+    if (predator.crash) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      preShake();
+      shaking = true;
+    } else {
+      shaking = false;
+    }
     updateFrame();
     // ctx.drawImage(ground, 0,0, 4300, 1540, 0,85, 800, 400)
     // ctx.drawImage(ground, 0,0, 1060, 380, 0,85, 900, 400)
@@ -286,6 +308,9 @@ document.addEventListener('DOMContentLoaded', function () {
       ctx.fillRect(new_platform.x, new_platform.y, new_platform.width, new_platform.height);
     });
     ctx.drawImage(predator.img, predator.srcX * predator.currentFrame, predator.srcY, predator.width, predator.height, predator.x, predator.y, predator.width * 1.5, predator.height * 1.5);
+    if (predator.crash) {
+      postShake();
+    }
   };
 
   requestAnimationFrame(drawImage);
@@ -346,15 +371,15 @@ var MovingObject = function () {
   _createClass(MovingObject, [{
     key: "crashWith",
     value: function crashWith(other) {
-      var crash = true;
+      // this.crash = true;
       if (this.y + this.height < other.y || this.y > other.y + other.height || this.x + this.width < other.x || this.x > other.x + other.width) {
-        crash = false;
+        this.crash = false;
       } else {
         // alert("crashed")
         console.log("crashed");
         other.health -= 1;
         console.log(other.health);
-        crash = true;
+        this.crash = true;
         ctx.clearRect(other.x, other.y, other.width, other.height);
         if (this.y + this.height - 10 <= other.y) {
           // other.y = (this.y + this.height);
