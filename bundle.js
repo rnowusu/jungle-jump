@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var grass = new _moving_object2.default(ground, 0, 0, 1060, 380, 0, 110, 900, 400);
 
   var pterodactyl_sprite = new Image();
-  pterodactyl_sprite.src = './assets/pterodactyl_transparent.png';
+  pterodactyl_sprite.src = './assets/predator_sprite.png';
   var predator = new _moving_object2.default(pterodactyl_sprite, 80.5 * 1, 0, 79, 77, 0, 0, 79, 77);
 
   var updateFrame = function updateFrame() {
@@ -239,8 +239,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // if (player[37]){player.currentFrame = 15}
     if (player.x - predator.width - player.width < predator.x - 50) {
       predator.x -= 1.5;
+      predator.srcY = predator.height;
+      predator.srcX = 84;
     } else if (player.x - predator.width - player.width > predator.x - 50) {
       predator.x += 1.5;
+      predator.srcY = 0;
+      predator.srcX = 80.5;
     }
     if (player.y - player.height < predator.y) {
       predator.y -= 1.5;
