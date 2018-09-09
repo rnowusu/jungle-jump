@@ -104,13 +104,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var sprite = new Image();
   sprite.src = './assets/icy_tower_sprites2.png';
   sprite.className = "sprite";
+
+  // let sprite2 = new Image();
+  // sprite2.src = './assets/player_sprite.png'
   // sprite.style="-moz-transform: scale(-1, 1);-webkit-transform: scale(-1, 1);-o-transform: scale(-1, 1);transform: scale(-1, 1);filter: FlipH;";
 
   var x = 350;
   var y = 380;
 
-  var srcX = 6.2 + 41;
-  var srcY = 0 + 41;
+  // let srcX = 6.2 + 41;
+  // let srcY = 0 + 41;
+  var srcX = void 0,
+      srcY = void 0;
 
   var sheetWidth = 656;
   var sheetHeight = 278;
@@ -122,6 +127,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var height = sheetHeight / rows;
 
   var player = new _moving_object2.default(sprite, srcX, srcY, width, height, x, y, width, height);
+  player.health = 500;
+  // console.log(player.health);
   var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679");
   var platforms = [];
   for (var i = 0; i < 7; i++) {
@@ -139,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var updateFrame = function updateFrame() {
 
     platform.crashWith(player);
+    predator.crashWith(player);
     platforms.forEach(function (new_platform) {
       new_platform.crashWith(player);
       new_platform.y += 1;
@@ -160,7 +168,10 @@ document.addEventListener('DOMContentLoaded', function () {
     player.y += player.gravity;
 
     player.srcX = 1 * player.width + 6.2;
-    player.srcY = 0 * player.height;
+    if (!player[37]) {
+      player.srcY = 0 * player.height;
+    }
+    // else{player.srcY=1*player.height}
 
     if (player.x >= 670) {
       player.x = 670;
@@ -216,11 +227,11 @@ document.addEventListener('DOMContentLoaded', function () {
       player.currentFrame = 1;
     }
     player.srcX = player.currentFrame * player.width + 5.2;
-    player.srcY = 0 * player.height;
+    // player.srcY = 0 * player.height
 
-    if (player.x - predator.width - player.width < predator.x) {
+    if (player.x - predator.width - player.width < predator.x - 50) {
       predator.x -= 1.5;
-    } else if (player.x - predator.width - player.width > predator.x) {
+    } else if (player.x - predator.width - player.width > predator.x - 50) {
       predator.x += 1.5;
     }
     if (player.y - player.height < predator.y) {
@@ -247,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
     player[e.keyCode] = true;
   });
   document.addEventListener('keyup', function (e) {
-    console.log(player[e.keyCode]);player[e.keyCode] = false;
+    player[e.keyCode] = false;
   });
 
   var drawImage = function drawImage() {
@@ -286,37 +297,75 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var MovingObject =
-// constructor(position, velocity, sprite){
-//   this.pos = position
-//   this.vel = velocity
-//   this.sprite = sprite
-//
-//
-// }
-function MovingObject(img, srcX, srcY, width, height, x, y) {
-  _classCallCheck(this, MovingObject);
+var MovingObject = function () {
+  // constructor(position, velocity, sprite){
+  //   this.pos = position
+  //   this.vel = velocity
+  //   this.sprite = sprite
+  //
+  //
+  // }
+  function MovingObject(img, srcX, srcY, width, height, x, y) {
+    _classCallCheck(this, MovingObject);
 
-  this.img = img;
-  this.srcX = srcX;
-  this.srcY = srcY;
-  this.width = width;
-  this.height = height;
-  this.x = x;
-  this.y = y;
-  this.gravity = 0;
-  this.moveUp = false;
-  this.moveDown = false;
-  this.moveLeft = false;
-  this.moveRight = false;
-  this.velocity = 0;
-  this.yVelocity = 0;
-  this[37] = false;
-  this[38] = false;
-  this[39] = false;
-};
+    this.img = img;
+    this.srcX = srcX;
+    this.srcY = srcY;
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.moveUp = false;
+    this.moveDown = false;
+    this.moveLeft = false;
+    this.moveRight = false;
+    this.velocity = 0;
+    this.yVelocity = 0;
+    this[37] = false;
+    this[38] = false;
+    this[39] = false;
+  }
+
+  _createClass(MovingObject, [{
+    key: "crashWith",
+    value: function crashWith(other) {
+      var crash = true;
+      if (this.y + this.height < other.y || this.y > other.y + other.height || this.x + this.width < other.x || this.x > other.x + other.width) {
+        crash = false;
+      } else {
+        // alert("crashed")
+        console.log("crashed");
+        other.health -= 1;
+        console.log(other.health);
+        crash = true;
+        ctx.clearRect(other.x, other.y, other.width, other.height);
+        if (this.y + this.height - 10 <= other.y) {
+          // other.y = (this.y + this.height);
+          // other.gravity = 0;
+          // other.yVelocity = 0;
+        } else if (this.y <= other.y + other.height) {
+          // other.y = (this.y - other.height) +8;
+          // other.gravity = 0;
+          // other.y+= .5;
+          // other.yVelocity = -15;
+          // if(other[38] === true){other.y -=4;}
+        }
+        if (this.x <= other.x + other.width) {
+          // other.x = this.x
+        } else if (this.x + this.width >= other.x) {
+          // other.x = this.x + this.width + 3;
+        }
+      }
+    }
+  }]);
+
+  return MovingObject;
+}();
 
 exports.default = MovingObject;
 

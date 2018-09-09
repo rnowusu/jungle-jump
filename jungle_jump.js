@@ -14,14 +14,17 @@ import Platform from './lib/platform';
     let sprite = new Image();
     sprite.src = './assets/icy_tower_sprites2.png'
     sprite.className = "sprite";
+
+    // let sprite2 = new Image();
+    // sprite2.src = './assets/player_sprite.png'
     // sprite.style="-moz-transform: scale(-1, 1);-webkit-transform: scale(-1, 1);-o-transform: scale(-1, 1);transform: scale(-1, 1);filter: FlipH;";
 
     let x = 350;
     let y = 380;
 
-    let srcX = 6.2 + 41;
-    let srcY = 0 + 41;
-
+    // let srcX = 6.2 + 41;
+    // let srcY = 0 + 41;
+    let srcX, srcY;
 
     let sheetWidth = 656;
     let sheetHeight = 278;
@@ -33,6 +36,8 @@ import Platform from './lib/platform';
     let height = sheetHeight / rows;
 
     let player = new MovingObject(sprite, srcX, srcY, width, height, x, y, width, height)
+    player.health = 500;
+    // console.log(player.health);
     let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679")
     let platforms = [];
     for (let i = 0; i < 7; i++){
@@ -50,6 +55,7 @@ import Platform from './lib/platform';
     let updateFrame = () => {
 
       platform.crashWith(player)
+      predator.crashWith(player)
       platforms.forEach((new_platform) => {
         new_platform.crashWith(player);
         new_platform.y +=1;
@@ -67,7 +73,8 @@ import Platform from './lib/platform';
       player.y += player.gravity
 
       player.srcX = 1 * player.width + 6.2;
-      player.srcY = 0 * player.height
+      if(!player[37]){player.srcY = 0 * player.height}
+      // else{player.srcY=1*player.height}
 
       if (player.x >= 670 ){
         player.x = 670;
@@ -113,11 +120,11 @@ import Platform from './lib/platform';
         player.currentFrame = 1;
       }
         player.srcX = player.currentFrame * player.width + 5.2;
-        player.srcY = 0 * player.height
+        // player.srcY = 0 * player.height
 
-      if (player.x - predator.width - player.width < predator.x) {
+      if (player.x - predator.width - player.width < predator.x-50) {
         predator.x -=1.5;
-      } else if (player.x - predator.width - player.width > predator.x) {
+      } else if (player.x - predator.width - player.width > predator.x-50) {
         predator.x +=1.5
       }
       if (player.y - player.height < predator.y) {
@@ -141,7 +148,7 @@ import Platform from './lib/platform';
     // document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
 
   document.addEventListener('keydown', e => {player[e.keyCode] = true;})
-  document.addEventListener('keyup', e => {console.log(player[e.keyCode]);player[e.keyCode] = false;})
+  document.addEventListener('keyup', e => {player[e.keyCode] = false;})
 
     let drawImage = () => {
       updateFrame();
