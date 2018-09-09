@@ -54,6 +54,9 @@ import Platform from './lib/platform';
 
     let updateFrame = () => {
 
+      let healthBox= document.getElementById('health');
+      healthBox.textContent = 'Health is ' + player.health;
+
       platform.crashWith(player)
       predator.crashWith(player)
       platforms.forEach((new_platform) => {

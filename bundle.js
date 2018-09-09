@@ -145,6 +145,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var updateFrame = function updateFrame() {
 
+    var healthBox = document.getElementById('health');
+    healthBox.textContent = 'Health is ' + player.health;
+
     platform.crashWith(player);
     predator.crashWith(player);
     platforms.forEach(function (new_platform) {
