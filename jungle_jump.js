@@ -8,7 +8,7 @@ import Platform from './lib/platform';
     let ctx = canvas.getContext("2d");
 
     window.ctx = ctx
-    canvas.width = 720;
+    canvas.width = 820;
     canvas.height = 480
 
     // let sprite = new Image();
@@ -79,8 +79,8 @@ import Platform from './lib/platform';
       if(!player[37]){player.srcY = 0 * player.height + 4.2}
       // else{player.srcY=1*player.height}
 
-      if (player.x >= 670 ){
-        player.x = 670;
+      if (player.x >= 770 ){
+        player.x = 770;
       } else if (player.x < 0){ player.x = 0 }
       if (player.y <= -40 ){
         player.y = -40;
@@ -179,6 +179,7 @@ import Platform from './lib/platform';
 
     let drawImage = () => {
       if (player.health < 0){
+        document.getElementById('loss-modal').style.display = 'flex'
         cancelAnimationFrame(stopFrame);
         player.health = 0;
         return stopFrame;

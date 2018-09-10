@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var ctx = canvas.getContext("2d");
 
   window.ctx = ctx;
-  canvas.width = 720;
+  canvas.width = 820;
   canvas.height = 480;
 
   // let sprite = new Image();
@@ -176,8 +176,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // else{player.srcY=1*player.height}
 
-    if (player.x >= 670) {
-      player.x = 670;
+    if (player.x >= 770) {
+      player.x = 770;
     } else if (player.x < 0) {
       player.x = 0;
     }
@@ -293,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var drawImage = function drawImage() {
     if (player.health < 0) {
+      document.getElementById('loss-modal').style.display = 'flex';
       cancelAnimationFrame(stopFrame);
       player.health = 0;
       return stopFrame;
