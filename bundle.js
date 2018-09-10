@@ -147,6 +147,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var healthBox = document.getElementById('health');
     healthBox.textContent = 'Health is ' + player.health;
+    var endTime = new Date();
+    currentTime = endTime.getSeconds() - startTime.getSeconds();
+    currentTimeMs = endTime.getMilliseconds();
+    // console.log(currentTime);
+    document.getElementById('time').textContent = "Elapsed time is " + currentTime + "." + currentTimeMs;
 
     platform.crashWith(player);
     predator.crashWith(player);
@@ -259,6 +264,10 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   var a = 1;
   var b = 1;
+  var startTime = void 0;
+  var endTime = void 0;
+  var currentTime;
+  var currentTimeMs;
   player.currentFrame = 0;
   predator.currentFrame = 0;
 
@@ -293,7 +302,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var drawImage = function drawImage() {
     if (player.health < 0) {
+      var timeText = document.createTextNode(currentTime + "." + currentTimeMs);
+      document.getElementById('modal-time').append("You lasted ");
+      document.getElementById('modal-time').append(timeText);
+      document.getElementById('modal-time').append(" seconds!");
       document.getElementById('loss-modal').style.display = 'flex';
+      // document.getElementById('modal-time').style.display = 'flex'
       cancelAnimationFrame(stopFrame);
       player.health = 0;
       return stopFrame;
@@ -327,7 +341,8 @@ document.addEventListener('DOMContentLoaded', function () {
   events.forEach(function (event) {
     document.addEventListener(event, function (e) {
       // console.log(e.type);
-      if ((e.keyCode === 83 || e.type === 'click') && !stopFrame) {
+      if ((e.keyCode === 83 || e.keyCode === 32 || e.type === 'click') && !stopFrame) {
+        startTime = new Date();
         stopFrame = requestAnimationFrame(drawImage);
         document.getElementById('modal').style.display = "none";
       }

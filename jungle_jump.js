@@ -56,6 +56,11 @@ import Platform from './lib/platform';
 
       let healthBox= document.getElementById('health');
       healthBox.textContent = 'Health is ' + player.health;
+      let endTime = new Date();
+      currentTime = (endTime.getSeconds() - startTime.getSeconds());
+      currentTimeMs = (endTime.getMilliseconds());
+      // console.log(currentTime);
+      document.getElementById('time').textContent = "Elapsed time is " + currentTime + "." + currentTimeMs;
 
       platform.crashWith(player)
       predator.crashWith(player)
@@ -149,6 +154,10 @@ import Platform from './lib/platform';
     }
     let a = 1;
     let b = 1;
+    let startTime;
+    let endTime;
+    var currentTime;
+    var currentTimeMs;
     player.currentFrame = 0;
     predator.currentFrame = 0;
 
@@ -179,7 +188,12 @@ import Platform from './lib/platform';
 
     let drawImage = () => {
       if (player.health < 0){
+        let timeText = document.createTextNode(currentTime+"."+currentTimeMs)
+        document.getElementById('modal-time').append("You lasted ")
+        document.getElementById('modal-time').append(timeText)
+        document.getElementById('modal-time').append(" seconds!")
         document.getElementById('loss-modal').style.display = 'flex'
+        // document.getElementById('modal-time').style.display = 'flex'
         cancelAnimationFrame(stopFrame);
         player.health = 0;
         return stopFrame;
@@ -207,7 +221,8 @@ import Platform from './lib/platform';
     events.forEach(event => {
       document.addEventListener(event, e => {
         // console.log(e.type);
-        if((e.keyCode === 83 || e.type === 'click') && !stopFrame){
+        if((e.keyCode === 83 || e.keyCode === 32 || e.type === 'click') && !stopFrame){
+          startTime = new Date();
           stopFrame = requestAnimationFrame(drawImage);
           document.getElementById('modal').style.display="none";
         }

@@ -49,6 +49,15 @@ body {
   justify-content: center;
   font-family: sans-serif;
 }
+#time{
+  color:#d5ceb4;
+  font-size: 30px;
+  font-weight: bold;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  font-family: sans-serif;
+}
 
 #modal{
   /* color:white; */
@@ -60,8 +69,8 @@ body {
   left:-15px;
   top:-15px;
   background-color: rgba(0, 0, 0, 0.7);
-  /* display: flex; */
-  display: none;
+  display: flex;
+  /* display: none; */
   /* padding:0px; */
   font-family:sans-serif;
   justify-content: center;
@@ -95,6 +104,23 @@ body {
   width:110%;
   height: 110%;
   z-index: 1;
+}
+#modal-time{
+  color:#d5ceb4;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 50px;
+  position:fixed;
+  left:-15px;
+  top:-15px;
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  display: flex;
+  /* display: none; */
+  font-family:sans-serif;
+  justify-content: center;
+  align-items: center;
+  width:110%;
+  height: 110%;
+  /* z-index: 1; */
 }
 
 .title {
