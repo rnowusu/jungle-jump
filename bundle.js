@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var height = sheetHeight / rows;
 
   var player = new _moving_object2.default(sprite2, srcX, srcY, width, height, x, y, width, height);
-  player.health = 500;
+  player.health = 100;
   // console.log(player.health);
   var platform = new _platform2.default(Math.random() * canvas.width - 70, Math.random() * 280 + 100, 100, 20, "#d2a679");
   var platforms = [];
@@ -292,6 +292,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   var drawImage = function drawImage() {
+    if (player.health < 0) {
+      cancelAnimationFrame(stopFrame);
+      player.health = 0;
+      return stopFrame;
+    }
     if (predator.crash) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       preShake();
@@ -316,8 +321,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  requestAnimationFrame(drawImage);
-  // window.drawImage = drawImage
+  var stopFrame;
+  document.addEventListener('keyup', function (e) {
+    if (e.keyCode === 83 && !stopFrame) {
+      stopFrame = requestAnimationFrame(drawImage);
+    }
+  });
+  // document.addEventListener('keyup', e => {
+  //   if(e.keyCode === 82 && stopFrame){
+  //     cancelAnimationFrame(stopFrame)
+  //     stopFrame = null;
+  //     // stopFrame = requestAnimationFrame(drawImage);
+  //   }
+  // })
 
 });
 
@@ -379,9 +395,9 @@ var MovingObject = function () {
         this.crash = false;
       } else {
         // alert("crashed")
-        console.log("crashed");
+        // console.log("crashed");
         other.health -= 1;
-        console.log(other.health);
+        // console.log(other.health);
         this.crash = true;
         ctx.clearRect(other.x, other.y, other.width, other.height);
         if (this.y + this.height - 10 <= other.y) {

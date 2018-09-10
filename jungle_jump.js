@@ -36,7 +36,7 @@ import Platform from './lib/platform';
     let height = sheetHeight / rows;
 
     let player = new MovingObject(sprite2, srcX, srcY, width, height, x, y, width, height)
-    player.health = 500;
+    player.health = 100;
     // console.log(player.health);
     let platform = new Platform(Math.random() * canvas.width - 70, Math.random() * 280+100, 100, 20, "#d2a679")
     let platforms = [];
@@ -178,6 +178,11 @@ import Platform from './lib/platform';
   document.addEventListener('keyup', e => {player[e.keyCode] = false;})
 
     let drawImage = () => {
+      if (player.health < 0){
+        cancelAnimationFrame(stopFrame);
+        player.health = 0;
+        return stopFrame;
+      }
       if(predator.crash){
       ctx.clearRect(0,0,canvas.width, canvas.height);
       preShake();
@@ -196,8 +201,19 @@ import Platform from './lib/platform';
       if(predator.crash){postShake();}
     }
 
-    requestAnimationFrame(drawImage);
-    // window.drawImage = drawImage
+    var stopFrame;
+    document.addEventListener('keyup', e => {
+      if(e.keyCode === 83 && !stopFrame){
+        stopFrame = requestAnimationFrame(drawImage);
+      }
+    })
+    // document.addEventListener('keyup', e => {
+    //   if(e.keyCode === 82 && stopFrame){
+    //     cancelAnimationFrame(stopFrame)
+    //     stopFrame = null;
+    //     // stopFrame = requestAnimationFrame(drawImage);
+    //   }
+    // })
 
 
 });
