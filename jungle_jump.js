@@ -202,10 +202,15 @@ import Platform from './lib/platform';
     }
 
     var stopFrame;
-    document.addEventListener('keyup', e => {
-      if(e.keyCode === 83 && !stopFrame){
-        stopFrame = requestAnimationFrame(drawImage);
-      }
+    let events = ['click', 'keyup']
+    events.forEach(event => {
+      document.addEventListener(event, e => {
+        // console.log(e.type);
+        if((e.keyCode === 83 || e.type === 'click') && !stopFrame){
+          stopFrame = requestAnimationFrame(drawImage);
+          document.getElementById('modal').style.display="none";
+        }
+      })
     })
     // document.addEventListener('keyup', e => {
     //   if(e.keyCode === 82 && stopFrame){

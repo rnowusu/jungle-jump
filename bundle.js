@@ -322,10 +322,15 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   var stopFrame;
-  document.addEventListener('keyup', function (e) {
-    if (e.keyCode === 83 && !stopFrame) {
-      stopFrame = requestAnimationFrame(drawImage);
-    }
+  var events = ['click', 'keyup'];
+  events.forEach(function (event) {
+    document.addEventListener(event, function (e) {
+      // console.log(e.type);
+      if ((e.keyCode === 83 || e.type === 'click') && !stopFrame) {
+        stopFrame = requestAnimationFrame(drawImage);
+        document.getElementById('modal').style.display = "none";
+      }
+    });
   });
   // document.addEventListener('keyup', e => {
   //   if(e.keyCode === 82 && stopFrame){
