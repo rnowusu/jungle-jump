@@ -246,20 +246,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // if (player[37]){player.currentFrame = 15}
     if (player.x - predator.width - player.width < predator.x - 50) {
-      predator.x -= 1.5;
+      predator.x -= 3;
       if (player.x - predator.width - player.width < predator.x - 55) {
         predator.srcY = predator.height;
         predator.srcX = 84;
       }
     } else if (player.x - predator.width - player.width > predator.x - 50) {
-      predator.x += 1.5;
+      predator.x += 3;
       predator.srcY = 0;
       predator.srcX = 80.5;
     }
     if (player.y - player.height < predator.y) {
-      predator.y -= 1.5;
+      predator.y -= 3;
     } else if (player.y - player.height > predator.y) {
-      predator.y += 1.5;
+      predator.y += 3;
     }
   };
   var a = 1;
@@ -294,10 +294,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // document.getElementById('button-down').addEventListener("mouseup", (e) => mouseupDown(e, player))
 
   document.addEventListener('keydown', function (e) {
-    player[e.keyCode] = true;
+    e.preventDefault();player[e.keyCode] = true;
   });
   document.addEventListener('keyup', function (e) {
-    player[e.keyCode] = false;
+    e.preventDefault();player[e.keyCode] = false;
   });
 
   var drawImage = function drawImage() {
